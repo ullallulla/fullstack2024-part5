@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import ErrorMessage from './components/ErrorMessage'
@@ -19,6 +19,8 @@ const App = () => {
   const [notification, setNotification] = useState(null)
   const [blogVisible, setBlogVisible] = useState(false)
 
+  const blogFormRef = useRef()
+
   useEffect(() => {
     const fetchBlogs = async () => {
       const initialBlogs = await blogService.getAll()
@@ -37,7 +39,7 @@ const App = () => {
   }, [])
 
   const addBlog = async (blogObject) => {
-
+    blogFormRef.current.toggleVisibility()
     try {
       const newBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(newBlog))
@@ -180,7 +182,7 @@ const App = () => {
       <h2>blogs</h2>
       <Notification message={notification} />
       <p>{user.name} logged-in</p> <button onClick={handleLogout}>logout</button>
-      <Togglable buttonLabel='new blog'>
+      <Togglable buttonLabel='new blog' ref={blogFormRef}>
         <BlogForm createBlog={addBlog} />
       </Togglable>
       {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
