@@ -146,12 +146,12 @@ const App = () => {
 
     return (
       <div>
-        <div div style={hideWhenVisible}>
+        <div style={hideWhenVisible}>
           <button onClick={() => setBlogVisible(true)}>
             new blog
           </button>
         </div>
-        <div div style={showWhenVisible}>
+        <div style={showWhenVisible}>
           <BlogForm
             createBlog={addBlog}
             handleAuthorChange={({ target }) => setNewAuthor(target.value)}
